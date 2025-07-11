@@ -4,6 +4,13 @@ services:
 
   mysql:
     image: mysql:latest
+    # environment:
+    #   MYSQL_DATABASE: laraveldb
+    #   MYSQL_USER: laravel
+    #   MYSQL_PASSWORD: secret
+    #   MYSQL_ROOT_PASSWORD: secret
+    env_file:
+      - ./env/mysql.env
 
   nginx:
     image: nginx:latest
