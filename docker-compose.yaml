@@ -1,9 +1,11 @@
 services:
   php:
     image: php:8.2-fpm-alpine
+    container_name: php
 
   mysql:
     image: mysql:latest
+    container_name: mysql
     # environment:
     #   MYSQL_DATABASE: laraveldb
     #   MYSQL_USER: laravel
@@ -14,3 +16,4 @@ services:
 
   nginx:
     image: nginx:latest
+    container_name: nginx
