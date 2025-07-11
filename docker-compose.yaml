@@ -1,7 +1,12 @@
+networks:
+  laravel:
+    name: laravel
 services:
   php:
     image: php:8.2-fpm-alpine
     container_name: php
+    networks:
+      - laravel
 
   mysql:
     image: mysql:latest
@@ -13,7 +18,11 @@ services:
     #   MYSQL_ROOT_PASSWORD: secret
     env_file:
       - ./env/mysql.env
+    networks:
+      - laravel
 
   nginx:
     image: nginx:latest
     container_name: nginx
+    networks:
+      - laravel
