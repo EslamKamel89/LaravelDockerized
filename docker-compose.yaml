@@ -2,17 +2,30 @@ networks:
   laravel:
     name: laravel
 services:
-  nginx:
-    # image: nginx:latest
+  # nginx:
+  #   # image: nginx:latest
+  #   build:
+  #     context: .
+  #     dockerfile: nginx.dockerfile
+  #   container_name: nginx
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   volumes:
+  #     # - /src:/usr/share/nginx/html
+  #     - ./src:/var/www/html
+  #   networks:
+  #     - laravel
+
+  apache:
     build:
       context: .
-      dockerfile: nginx.dockerfile
-    container_name: nginx
+      dockerfile: apache.dockerfile
+    container_name: apache
     ports:
       - 80:80
       - 443:443
     volumes:
-      # - /src:/usr/share/nginx/html
       - ./src:/var/www/html
     networks:
       - laravel
