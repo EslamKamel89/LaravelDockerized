@@ -1,0 +1,9 @@
+services:
+  php:
+    image: php:8.2-fpm-alpine
+
+  mysql:
+    image: mysql:latest
+
+  nginx:
+    image: nginx:latest
