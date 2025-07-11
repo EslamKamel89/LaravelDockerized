@@ -3,11 +3,17 @@ networks:
     name: laravel
 services:
   nginx:
-    image: nginx:latest
+    # image: nginx:latest
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
     container_name: nginx
     ports:
       - 80:80
       - 443:443
+    volumes:
+      # - /src:/usr/share/nginx/html
+      - ./src:/var/www/html
     networks:
       - laravel
   php:
