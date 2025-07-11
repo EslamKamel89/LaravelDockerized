@@ -2,6 +2,14 @@ networks:
   laravel:
     name: laravel
 services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - laravel
   php:
     image: php:8.2-fpm-alpine
     container_name: php
@@ -18,11 +26,5 @@ services:
     #   MYSQL_ROOT_PASSWORD: secret
     env_file:
       - ./env/mysql.env
-    networks:
-      - laravel
-
-  nginx:
-    image: nginx:latest
-    container_name: nginx
     networks:
       - laravel
