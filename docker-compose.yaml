@@ -30,7 +30,10 @@ services:
   #   networks:
   #     - laravel
   php:
-    image: php:8.2-fpm-alpine
+    # image: php:8.2-fpm-alpine
+    build:
+      context: .
+      dockerfile: php.dockerfile
     container_name: php
     volumes:
       - ./src:/var/www/html
