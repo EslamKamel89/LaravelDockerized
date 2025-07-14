@@ -43,12 +43,16 @@ services:
   mysql:
     image: mysql:latest
     container_name: mysql
-    # environment:
-    #   MYSQL_DATABASE: laraveldb
-    #   MYSQL_USER: laravel
-    #   MYSQL_PASSWORD: secret
-    #   MYSQL_ROOT_PASSWORD: secret
-    env_file:
-      - ./env/mysql.env
+    ports:
+      - 4306:3306
+    # env_file:
+    #   - ./env/mysql.env
+    environment:
+      MYSQL_DATABASE: laraveldb
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - ./mysql:/var/lib/mysql
     networks:
       - laravel
