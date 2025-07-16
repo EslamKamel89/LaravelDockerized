@@ -37,9 +37,6 @@ services:
     build:
       context: .
       dockerfile: php.dockerfile
-      args:
-        UID: ${UID:-1000}
-        GID: ${GID:-1000}
     container_name: php
     volumes:
       # - app-data:/var/www/html
