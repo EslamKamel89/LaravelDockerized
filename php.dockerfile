@@ -1,12 +1,35 @@
 FROM php:8.2-fpm-alpine
 
-RUN mkdir -p /var/www/html
+# Use ARGs for UID/GID
+ARG UID=1000
+ARG GID=1000
 
-# this line below is used to resolve permissions issue that some times appear when writing to files
-# if you attached an interactive shell to the PHP_FPM container and run the command `/usr/local/etc/php-fpm.d # cat www.conf`
-# you will find the following `user = www-data & group = www-data`. i think with the command below
-# we are installing shadow then enabling the same user as the configration so there wont' be permission issues
+# Install required packages
+RUN apk add --no-cache shadow
 
-RUN apk --no-cache add shadow && usermod -u 1000 www-data
+# Stop FPM before changing UID
+RUN rc-service php-fpm8 stop || true
 
+# Create group if needed
+RUN if getent group ${GID}; then \
+    group_name=$(getent group ${GID} | cut -d: -f1); \
+    useradd -u ${UID} -g ${GID} -s /bin/sh -D www; \
+    else \
+    addgroup -g ${GID} www; \
+    adduser -u ${UID} -G www -s /bin/sh -D www; \
+    fi
+
+# Change ownership of Laravel directory
+RUN mkdir -p /var/www/html && \
+    chown -R www:www /var/www/html
+
+# Set user/group in PHP-FPM config
+RUN sed -i "s/user = www-data/user = www/" /usr/local/etc/php-fpm.d/www.conf && \
+    sed -i "s/group = www-data/group = www/" /usr/local/etc/php-fpm.d/www.conf
+
+# Set working dir
+WORKDIR /var/www/html
+
+# Install extensions
 RUN docker-php-ext-install pdo pdo_mysql
+

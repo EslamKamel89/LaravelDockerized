@@ -8,6 +8,9 @@ services:
       context: .
       dockerfile: nginx.dockerfile
     container_name: nginx
+    depends_on:
+      - php
+      - mysql
     ports:
       - 80:80
       - 443:443
@@ -34,8 +37,12 @@ services:
     build:
       context: .
       dockerfile: php.dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     container_name: php
     volumes:
+      # - app-data:/var/www/html
       - ./src:/var/www/html
     networks:
       - laravel
@@ -56,3 +63,13 @@ services:
       - ./mysql:/var/lib/mysql
     networks:
       - laravel
+  composer:
+    image: composer:latest
+    container_name: composer
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    networks:
+      - laravel
+# volumes:
+#   app-data:
