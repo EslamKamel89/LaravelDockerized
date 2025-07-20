@@ -97,5 +97,14 @@ services:
     container_name: reverb
     command: reverb:start
     restart: always
-# volumes:
-#   app-data:
+  npm:
+    image: node:current-alpine
+    container_name: npm
+    working_dir: /var/www/html
+    ports:
+      - 5173:5173
+    volumes:
+      - ./src:/var/www/html
+    entrypoint: ["npm"]
+    networks:
+      - laravel
