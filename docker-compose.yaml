@@ -68,5 +68,34 @@ services:
     working_dir: /var/www/html
     networks:
       - laravel
+  artisan:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: artisan
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ["php", "artisan"]
+    networks:
+      - laravel
+  queue-worker:
+    extends:
+      service: artisan
+    container_name: queue-worker
+    command: queue:work
+    restart: always
+  scheduler:
+    extends:
+      service: artisan
+    container_name: scheduler
+    command: schedule:work
+    restart: always
+  reverb:
+    extends:
+      service: artisan
+    container_name: reverb
+    command: reverb:start
+    restart: always
 # volumes:
 #   app-data:
