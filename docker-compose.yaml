@@ -91,6 +91,12 @@ services:
     container_name: scheduler
     command: schedule:work
     restart: always
+  phpunit:
+    extends:
+      service: artisan
+    container_name: phpunit
+    command: test
+    restart: always
   reverb:
     extends:
       service: artisan
