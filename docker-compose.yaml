@@ -15,8 +15,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      # - /src:/usr/share/nginx/html
-      - ./src:/var/www/html
+      - ./src:/var/www/html:delegated
     networks:
       - laravel
 
@@ -39,8 +38,7 @@ services:
       dockerfile: php.dockerfile
     container_name: php
     volumes:
-      # - app-data:/var/www/html
-      - ./src:/var/www/html
+      - ./src:/var/www/html:delegated
     networks:
       - laravel
 
@@ -96,7 +94,6 @@ services:
       service: artisan
     container_name: phpunit
     command: test
-    restart: always
   reverb:
     extends:
       service: artisan
